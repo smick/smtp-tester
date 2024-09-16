@@ -1,0 +1,61 @@
+<!-- views/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Test Form</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Send Test Email</h1>
+    <form id="emailForm">
+      <label for="email">Recipient Email:</label>
+      <input type="email" id="email" name="email" required>
+      <button type="submit">Send Email</button>
+    </form>
+    <p id="status"></p>
+    <pre id="log" style="display:none;"></pre>
+  </div>
+
+  <script>
+    document.getElementById('emailForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const status = document.getElementById('status');
+      const log = document.getElementById('log');
+
+      status.textContent = 'Sending email...';
+      log.style.display = 'none'; // Hide log until error occurs
+
+      // Make a POST request to send the email
+      fetch('/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          email: email
+        }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          status.textContent = 'Email sent successfully!';
+          log.style.display = 'none';
+        } else {
+          status.textContent = 'Error sending email.';
+          log.textContent = data.errorLog; // Show the detailed log
+          log.style.display = 'block';
+        }
+      })
+      .catch(error => {
+        status.textContent = 'Error: Unable to send request.';
+        log.textContent = error;
+        log.style.display = 'block';
+      });
+    });
+  </script>
+</body>
+</html>
