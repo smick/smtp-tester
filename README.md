@@ -18,9 +18,8 @@ This is a simple Node.js application for testing email sending using Nodemailer 
 
 1. **Clone the repository:**
 
-   ```bash
-   git clone https://github.com/your-repo/smtp-tester.git
-   cd smtp-tester
-   npm install
-   cp .env.example .env
-   npm run dev```
+   - `git clone https://github.com/your-repo/smtp-tester.git `
+   - `cd smtp-tester`
+   - `npm install`
+   - `cp .env.example .env`
+   - `npm run dev`
